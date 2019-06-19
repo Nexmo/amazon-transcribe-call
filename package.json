@@ -1,0 +1,23 @@
+{
+  "name": "nexmo-multitrack-transcription",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/speech": "^2.1.1",
+    "aws-sdk": "^2.478.0",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.1.0",
+    "download-file": "^0.1.5",
+    "express": "^4.16.4",
+    "nexmo": "^2.4.0",
+    "open": "^6.3.0",
+    "shortid": "^2.2.14"
+  }
+}
