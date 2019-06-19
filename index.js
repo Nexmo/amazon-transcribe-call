@@ -27,9 +27,6 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-//testing
-
-
 app.get('/webhooks/answer', (req, res) => {
   return res.json([
     {
@@ -38,14 +35,14 @@ app.get('/webhooks/answer', (req, res) => {
         type: 'phone',
         number: process.env.BOB_PHONE_NUMBER
       }]
-    }/*,
+    },
     {
       action: 'connect',
       endpoint: [{
         type: 'phone',
         number: process.env.CHARLIE_PHONE_NUMBER
       }]
-    }*/,
+    },
     {
       "action": "record",
       "eventUrl": [`${req.protocol}://${req.get('host')}/webhooks/recording`],
@@ -108,12 +105,15 @@ function transcribeRecording(params) {
   const transcribeService = new AWS.TranscribeService()
 
   const jobParams = {
-    LanguageCode: 'en-GB', 
-    Media: { 
+    LanguageCode: 'en-GB',
+    Media: {
       MediaFileUri: params.audioFileUri
     },
-    MediaFormat: 'mp3', 
-    TranscriptionJobName: params.transcriptFileName
+    MediaFormat: 'mp3',
+    TranscriptionJobName: params.transcriptFileName,
+    Settings: {
+      ChannelIdentification: true
+    }
   }
 
   const startTranscriptionJobPromise = transcribeService.startTranscriptionJob(jobParams).promise()
