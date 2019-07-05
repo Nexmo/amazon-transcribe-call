@@ -1,0 +1,22 @@
+service: nexmo-transcribe
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: us-east-1
+
+functions:
+  transcribeJobStateChanged:
+    handler: handler.transcribeJobStateChanged
+
+    events:
+      - cloudwatchEvent:
+          event:
+            source:
+              - "aws.transcribe"
+            detail-type:
+              - "Transcribe Job State Change"
+            detail:
+              TranscriptionJobStatus:
+                - COMPLETED
+                - FAILED

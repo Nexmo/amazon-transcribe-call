@@ -2,4 +2,7 @@
 private.key
 .env
 recordings/*
-!recordings/.gitkeep 
+!recordings/.gitkeep
+transcripts/*
+!transcripts/.gitkeep
+/transcribeReadyService/.serverless

@@ -1,23 +1,18 @@
 {
-  "name": "nexmo-multitrack-transcription",
+  "name": "amazon-transcribe-call",
   "version": "1.0.0",
-  "description": "",
+  "description": "Shows how to use the Amazon Transcribe API to transcribe a phone conversation recorded with the Nexmo Voice API.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
+  "author": "Mark Lewin",
+  "license": "ISC",
   "dependencies": {
-    "@google-cloud/speech": "^2.1.1",
-    "aws-sdk": "^2.478.0",
-    "body-parser": "^1.18.3",
-    "dotenv": "^6.1.0",
-    "download-file": "^0.1.5",
-    "express": "^4.16.4",
-    "nexmo": "^2.4.0",
-    "open": "^6.3.0",
+    "aws-sdk": "^2.488.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "serverless": "^1.46.1",
     "shortid": "^2.2.14"
   }
 }
