@@ -1,7 +1,7 @@
 # Nexmo Voice API Call Transcription with Amazon Transcribe
 
 This is example code for an upcoming blog post that shows how to transcribe a 
-phone call automatically using the Amazon Transcribe API.
+phone call automatically using the Amazon Transcribe API. You'll need two handsets with two different phone numbers to test this.
 
 It uses the Nexmo Voice API to initiate and record the call. The call audio is created in your local `recordings` folder and uploaded to an S3 bucket.
 
@@ -36,7 +36,7 @@ nexmo number:buy 447700900001
 
 ### Create a Voice API application
 
-Use the CLI to create a Voice API application with the webhooks that will be responsible for answering a call on your Nexmo number (`/webhooks/answer`) and logging call events (`/webhooks/event`), respectively. Replace `example.com` in the following command with your own public-facing URL host name (consider using [ngrok](https://ngrok.io) for testing purposes, and if you do use it, run it now to get the temporary URLs that `ngrok` provides).
+Use the CLI to create a Voice API application with the webhooks that will be responsible for answering a call on your Nexmo number (`/webhooks/answer`) and logging call events (`/webhooks/event`), respectively. Replace `example.com` in the following command with your own public-facing URL host name (consider using [ngrok](https://ngrok.io) for testing purposes, and if you do use it, run it now to get the temporary URLs that `ngrok` provides and leave it running to prevent the URLs changing).
 
 Run the command in the application's root directory:
 
@@ -62,11 +62,17 @@ In the application's parent directory and run `npm install`:
 npm install
 ```
 
-Change into the `transcribeReadyService` directory and install `serverless`:
+### AWS setup
+
+Complete the following steps:
+
+1. [Create an AWS account and create an Adminstrator user](https://docs.aws.amazon.com/transcribe/latest/dg/setting-up-asc.html). Make a note of your AWS key and secret, because you cannot retrieve the secret later on.
+2. [Install and configure the AWS CLI](https://docs.aws.amazon.com/transcribe/latest/dg/setup-asc-awscli.html)
+3. Use the following AWS CLI command to create two new S3 buckets, one for the call audio and the other for the generated transcripts. These must be unique across S3. Ensure that the `region` supports the [Amazon Transcribe API](https://docs.aws.amazon.com/general/latest/gr/rande.html#transcribe_region) and [Cloudwatch Events](https://docs.aws.amazon.com/general/latest/gr/rande.html#cwe_region):
 
 ```
-cd transcribeReadyService
-npm install serverless
+aws s3 mb s3://your-audio-bucket-name --region us-east-1
+aws s3 mb s3://your-transcription-bucket-name --region us-east-1
 ```
 
 ### Configure the environment
@@ -78,17 +84,38 @@ Copy `example.env` to `.env` and configure the following settings:
 * `OTHER_PHONE_NUMBER=`: Another phone number you can call to create a conversation
 * `AWS_KEY`: Your Amazon Web Services key
 * `AWS_SECRET`: Your Amazon Web Services secret
-* `AWS_REGION`: Your Amazon Web Services region, e.g. `us-east-1`. Not all regions support the Transcribe API
-* `S3_PATH`: Your path to S3 bucket storage, which should include the region, e.g. `https://s3-us-east-1.amazonaws.com`
+* `AWS_REGION`: Your Amazon Web Services region, e.g. `us-east-1`
+* `S3_PATH`: Your path to S3 bucket storage, which should include the `AWS_REGION`, e.g. `https://s3-us-east-1.amazonaws.com`
 * `S3_AUDIO_BUCKET_NAME`: A uniquely-named S3 bucket which will contain call audio mp3 files
 * `S3_TRANSCRIPTS_BUCKET_NAME`=: A uniquely-named S3 bucket which will contain transcripts of the call audio
 
+### Deploy your serverless function
+
+The serverless function is a Lambda that executes when a transcription job completes. It makes a `POST` request to your application's `/webhooks/transcription` endpoint.
+
+Deploy this function:
+
+```
+cd transcribeReadyService
+serverless deploy
+```
 
 ## Running the code
 
-See [this post](#) for more information (post is not yet published).
+1. In the root directory of your application, execute:
 
-You'll need to create a Nexmo application, obtain Google Cloud credentials, edit
-the `.env` file and run `npm install` to make this project runnable.
+```
+node index.js
+```
 
-For step by step instructions, see the linked blog post
+2. Call your Nexmo virtual number from one of your personal numbers. The other number you specified in the `OTHER_PHONE_NUMBER` setting should ring - answer it when it does.
+
+3. Speak a few words into each handset. When you're finished, disconnect both.
+
+4. Watch the console as the transcription job is being processed. If everything works properly, you should receive a notification that your job is complete and you should find the call audio file in your `recordings` directory and the corresponding transcript (in JSON format) in `transcripts`. Note how the transcript is split into channels, one for each device you used.
+
+## Adding more callers
+
+If you have more than two numbers, you can add more callers to the conversation. Simply create a `connect` action for each in the `/webhooks/answer` NCCO and increase the number of channels in the `record` action accordingly.
+
+
