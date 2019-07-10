@@ -80,8 +80,8 @@ aws s3 mb s3://your-transcription-bucket-name --region us-east-1
 Copy `example.env` to `.env` and configure the following settings:
 
 * `NEXMO_APPLICATION_ID`: The Nexmo Voice Application ID you created earlier
-* `NEXMO_PRIVATE_KEY_PATH`="./private.key"
-* `OTHER_PHONE_NUMBER=`: Another phone number you can call to create a conversation
+* `NEXMO_PRIVATE_KEY_PATH`: The path to your `private.key` file, e.g "./private.key"
+* `OTHER_PHONE_NUMBER`: Another phone number you can call to create a conversation
 * `AWS_KEY`: Your Amazon Web Services key
 * `AWS_SECRET`: Your Amazon Web Services secret
 * `AWS_REGION`: Your Amazon Web Services region, e.g. `us-east-1`

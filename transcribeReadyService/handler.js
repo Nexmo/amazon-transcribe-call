@@ -5,7 +5,7 @@ exports.transcribeJobStateChanged = (event, context) => {
   let body = '';
 
   const options = {
-    host: 'mplapp.ngrok.io',
+    host: 'myapp.ngrok.io', // <-- replace this
     path: '/webhooks/transcription',
     method: 'POST',
     headers: {

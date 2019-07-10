@@ -3,7 +3,7 @@ service: nexmo-transcribe
 provider:
   name: aws
   runtime: nodejs10.x
-  region: us-east-1
+  region: us-east-1 # <-- Specify your region
 
 functions:
   transcribeJobStateChanged:
