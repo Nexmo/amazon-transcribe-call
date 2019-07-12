@@ -1,6 +1,6 @@
 # Nexmo Voice API Call Transcription with Amazon Transcribe
 
-This is example code for an upcoming blog post that shows how to transcribe a 
+This is example code for a [tutorial](https://developer.nexmo.com/tutorials/trancribe-amazon-api) that shows how to transcribe a 
 phone call automatically using the Amazon Transcribe API. You'll need two handsets with two different phone numbers to test this.
 
 It uses the Nexmo Voice API to initiate and record the call. The call audio is created in your local `recordings` folder and uploaded to an S3 bucket.
