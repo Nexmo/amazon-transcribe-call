@@ -31,6 +31,10 @@ const S3 = new AWS.S3()
 app.get('/webhooks/answer', (req, res) => {
   return res.json([
     {
+      action: 'talk',
+      text: 'Thanks for calling, we will connect you now'
+    },
+    {
       action: 'connect',
       endpoint: [{
         type: 'phone',
