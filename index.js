@@ -57,7 +57,6 @@ app.post('/webhooks/events', (req, res) => {
 })
 
 app.post('/webhooks/recording', (req, res) => {
-
   let audioFileName = `nexmo-${shortid.generate()}.mp3`
   let audioFileLocalPath = `./recordings/${audioFileName}`
 
@@ -98,11 +97,27 @@ app.post('/webhooks/transcription', (req, res) => {
         console.log("Retrieved transcript")
         console.log(data)
         downloadFile(data.TranscriptionJob.TranscriptionJobName + '.json')
+        displayResults(data)
       }
     })
   }
   return res.status(200).send("")
 })
+
+function displayResults(transcriptJson) {
+  const channels = transcriptJson.results.channel_labels.channels
+
+  channels.forEach((channel) => {
+    console.log(`*** Channel: ${channel.channel_label}`)
+
+    let words = ''
+
+    channel.items.forEach((item) => {
+      words += item.alternatives[0].content + ' '
+    })
+    console.log(words)
+  })
+}
 
 function uploadFile(localPath, fileName) {
 
