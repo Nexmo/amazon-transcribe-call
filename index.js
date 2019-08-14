@@ -23,7 +23,6 @@ AWS.config.update({
 const app = express()
 
 app.use(bodyParser.json())
-//app.use(bodyParser.urlencoded({ extended: false }))
 
 const transcribeService = new AWS.TranscribeService()
 const S3 = new AWS.S3()
@@ -58,7 +57,6 @@ app.post('/webhooks/events', (req, res) => {
 
 app.post('/webhooks/recording', (req, res) => {
   let audioFileName = `nexmo-${shortid.generate()}.mp3`
-  //let audioFileLocalPath = `./recordings/${audioFileName}`
   let audioFileLocalPath = `./recordings/${audioFileName}`
 
   console.log("recording...")
