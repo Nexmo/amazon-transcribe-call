@@ -7,12 +7,16 @@ const AWS = require("aws-sdk")
 const shortid = require("shortid")
 const fs = require("fs")
 
+const options = {
+  appendToUserAgent: "amazon-transcribe-call/1.0.0",
+}
+
 const nexmo = new Nexmo({
   apiKey: "not_used", // Voice applications don't use API key or secret
   apiSecret: "not_used",
   applicationId: process.env.NEXMO_APPLICATION_ID,
   privateKey: __dirname + "/" + process.env.NEXMO_PRIVATE_KEY_FILE
-})
+}, options)
 
 AWS.config.update({
   region: process.env.AWS_REGION,
