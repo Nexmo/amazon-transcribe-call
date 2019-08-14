@@ -15,8 +15,8 @@ const nexmo = new Nexmo({
   apiKey: "not_used", // Voice applications don't use API key or secret
   apiSecret: "not_used",
   applicationId: process.env.NEXMO_APPLICATION_ID,
-  privateKey: __dirname + "/" + process.env.NEXMO_PRIVATE_KEY_FILE
-}, options)
+  privateKey: __dirname + "/" + process.env.NEXMO_PRIVATE_KEY_PATH
+})
 
 AWS.config.update({
   region: process.env.AWS_REGION,
@@ -61,6 +61,7 @@ app.post('/webhooks/events', (req, res) => {
 
 app.post('/webhooks/recording', (req, res) => {
   let audioFileName = `nexmo-${shortid.generate()}.mp3`
+  //let audioFileLocalPath = `./recordings/${audioFileName}`
   let audioFileLocalPath = `./recordings/${audioFileName}`
 
   console.log("recording...")
