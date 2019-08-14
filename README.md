@@ -1,12 +1,15 @@
 # Nexmo Voice API Call Transcription with Amazon Transcribe
-
-This is example code for a [tutorial](https://developer.nexmo.com/tutorials/trancribe-amazon-api) that shows how to transcribe a 
-phone call automatically using the Amazon Transcribe API. You'll need two handsets with two different phone numbers to test this.
+ 
+This is example code for a [tutorial](https://developer.nexmo.com/use-cases/trancribe-amazon-api) that shows you how to transcribe a phone call automatically using the Amazon Transcribe API. You'll need two handsets with two different phone numbers to test this.
 
 It uses the Nexmo Voice API to initiate and record the call. The call audio is created in your local `recordings` folder and uploaded to an S3 bucket.
 
 Amazon Cloudwatch triggers a serverless Lambda function when the transcription job has completed.  Transcripts are created in S3 and downloaded to your application's `transcripts` folder.
-
+ 
+## Welcome to Nexmo
+ 
+If you're new to Nexmo, you can [sign up for a Nexmo account](https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&amp;utm_medium=github&amp;utm_campaign=amazon-transcribe-call) and get some free credit to get you started.
+ 
 ## Setup
 
 ### Install the Nexmo CLI
@@ -80,7 +83,7 @@ aws s3 mb s3://your-transcription-bucket-name --region us-east-1
 Copy `example.env` to `.env` and configure the following settings:
 
 * `NEXMO_APPLICATION_ID`: The Nexmo Voice Application ID you created earlier
-* `NEXMO_PRIVATE_KEY_PATH`: The path to your `private.key` file, e.g "./private.key"
+* `NEXMO_PRIVATE_KEY_FILE`: The name of your private key file, which should be in the root of your application directory. E.g. `private.key`
 * `OTHER_PHONE_NUMBER`: Another phone number you can call to create a conversation
 * `AWS_KEY`: Your Amazon Web Services key
 * `AWS_SECRET`: Your Amazon Web Services secret
@@ -112,10 +115,55 @@ node index.js
 
 3. Speak a few words into each handset. When you're finished, disconnect both.
 
-4. Watch the console as the transcription job is being processed. If everything works properly, you should receive a notification that your job is complete and you should find the call audio file in your `recordings` directory and the corresponding transcript (in JSON format) in `transcripts`. Note how the transcript is split into channels, one for each device you used.
+4. Watch the console as the transcription job is being processed. If everything works properly, you should receive a notification that your job is complete and you should find the call audio file in your `recordings` directory and the corresponding transcript (in JSON format) in `transcripts`. Note how the transcript is split into channels, one for each device you used. The application parses the completed transcription and displays the result for each channel in the console.
 
 ## Adding more callers
 
 If you have more than two numbers, you can add more callers to the conversation. Simply create a `connect` action for each in the `/webhooks/answer` NCCO and increase the number of channels in the `record` action accordingly.
+ 
+## Getting Help
+ 
+We love to hear from you so if you have questions, comments or find a bug in the project, let us know! You can either:
+ 
+* Open an issue on this repository
+* Tweet at us! We're [@NexmoDev on Twitter](https://twitter.com/NexmoDev)
+* Or [join the Nexmo Community Slack](https://developer.nexmo.com/community/slack)
+ 
+## Further Reading
+
+* Read the [tutorial](https://developer.nexmo.com/use-cases/trancribe-amazon-api) that accompanies this demo application to learn how it was put together. 
+* Nexmo Voice API
+  * [Voice API call recording guide](/voice/voice-api/guides/recording)
+  * ["Record a call" code snippet](/voice/voice-api/code-snippets/record-a-call)
+  * [Voice API reference](/api/voice)
+  * [NCCO reference](/voice/voice-api/ncco-reference)
+* AWS
+  * [AWS node.js SDK reference](https://aws.amazon.com/sdk-for-node-js/)
+  * [Amazon Transcribe API features](https://aws.amazon.com/transcribe/)
+  * [Amazon Transcribe API reference](https://docs.aws.amazon.com/transcribe/latest/dg/API_Reference.html)
+  * [Amazon S3 documentation](https://docs.aws.amazon.com/s3/)
+  * [Amazon CloudWatch documentation](https://docs.aws.amazon.com/cloudwatch/)
+  * [Amazon Lambda](https://docs.aws.amazon.com/lambda/)
+
+
+
+
+
+
+
+
+
+
+---
+
+# Nexmo Voice API Call Transcription with Amazon Transcribe
+
+This is example code for a [tutorial](https://developer.nexmo.com/tutorials/trancribe-amazon-api) that shows how to transcribe a 
+phone call automatically using the Amazon Transcribe API. You'll need two handsets with two different phone numbers to test this.
+
+It uses the Nexmo Voice API to initiate and record the call. The call audio is created in your local `recordings` folder and uploaded to an S3 bucket.
+
+Amazon Cloudwatch triggers a serverless Lambda function when the transcription job has completed.  Transcripts are created in S3 and downloaded to your application's `transcripts` folder.
+
 
 
