@@ -4,7 +4,7 @@
   "description": "Shows how to use the Amazon Transcribe API to transcribe a phone conversation recorded with the Nexmo Voice API.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "author": "Mark Lewin",
   "license": "ISC",
