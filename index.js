@@ -15,7 +15,7 @@ const nexmo = new Nexmo({
   apiKey: "not_used", // Voice applications don't use API key or secret
   apiSecret: "not_used",
   applicationId: process.env.NEXMO_APPLICATION_ID,
-  privateKey: __dirname + "/" + process.env.NEXMO_PRIVATE_KEY_PATH
+  privateKey: __dirname + "/" + process.env.NEXMO_PRIVATE_KEY_FILE
 })
 
 AWS.config.update({
