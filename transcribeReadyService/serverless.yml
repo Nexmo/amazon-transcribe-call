@@ -1,4 +1,4 @@
-service: nexmo-transcribe
+service: vonage-transcribe
 
 provider:
   name: aws

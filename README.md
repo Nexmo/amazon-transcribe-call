@@ -1,18 +1,18 @@
-# Nexmo Voice API Call Transcription with Amazon Transcribe
+# Vonage Voice API Call Transcription with Amazon Transcribe
 
 This is example code for a [tutorial](https://developer.nexmo.com/use-cases/trancribe-amazon-api) that shows you how to transcribe a phone call automatically using the Amazon Transcribe API. You'll need two handsets with two different phone numbers to test this.
 
-It uses the Nexmo Voice API to initiate and record the call. The call audio is created in your local `recordings` folder and uploaded to an S3 bucket.
+It uses the Vonage Voice API to initiate and record the call. The call audio is created in your local `recordings` folder and uploaded to an S3 bucket.
 
 Amazon Cloudwatch triggers a serverless Lambda function when the transcription job has completed.  Transcripts are created in S3 and downloaded to your application's `transcripts` folder.
 
-## Welcome to Nexmo
+## Welcome to Vonage
 
-If you're new to Nexmo, you can [sign up for a Nexmo account](https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&amp;utm_medium=github&amp;utm_campaign=amazon-transcribe-call) and get some free credit to get you started.
+If you're new to Vonage, you can [sign up for a Vonage account](https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&amp;utm_medium=github&amp;utm_campaign=amazon-transcribe-call) and get some free credit to get you started.
 
 ## Setup
 
-### Install the Nexmo CLI
+### Install the Vonage CLI
 
 Run the following at a terminal prompt to install the CLI and configure it with your `api_key` and `api_secret`, which you will find in the [Developer Dashboard](https://dashboard.nexmo.com):
 
@@ -21,9 +21,9 @@ npm install -g nexmo-cli
 nexmo setup <API_KEY> <API_SECRET>
 ```
 
-### Purchase a Nexmo number
+### Purchase a Vonage number
 
-If you don't already have one, buy a Nexmo virtual number to receive inbound calls.
+If you don't already have one, buy a Vonage virtual number to receive inbound calls.
 
 List available numbers (replace `GB` with your [two-character country code](https://www.iban.com/country-codes)):
 
@@ -39,7 +39,7 @@ nexmo number:buy 447700900001
 
 ### Create a Voice API application
 
-Use the CLI to create a Voice API application with the webhooks that will be responsible for answering a call on your Nexmo number (`/webhooks/answer`) and logging call events (`/webhooks/event`), respectively. Replace `example.com` in the following command with your own public-facing URL host name (consider using [ngrok](https://ngrok.io) for testing purposes, and if you do use it, run it now to get the temporary URLs that `ngrok` provides and leave it running to prevent the URLs changing).
+Use the CLI to create a Voice API application with the webhooks that will be responsible for answering a call on your Vonage number (`/webhooks/answer`) and logging call events (`/webhooks/event`), respectively. Replace `example.com` in the following command with your own public-facing URL host name (consider using [ngrok](https://ngrok.io) for testing purposes, and if you do use it, run it now to get the temporary URLs that `ngrok` provides and leave it running to prevent the URLs changing).
 
 Run the command in the application's root directory:
 
@@ -49,7 +49,7 @@ nexmo app:create "My Echo Server" https://example.com/webhooks/answer https://ex
 
 Make a note of the Application ID returned by this command. It will also download your `private.key` file which the Voice API uses to authenticate your application.
 
-### Link the Voice API application to your Nexmo number
+### Link the Voice API application to your Vonage number
 
 Use the application ID to link your virtual number:
 
@@ -82,8 +82,8 @@ aws s3 mb s3://your-transcription-bucket-name --region us-east-1
 
 Copy `example.env` to `.env` and configure the following settings:
 
-* `NEXMO_APPLICATION_ID`: The Nexmo Voice Application ID you created earlier
-* `NEXMO_PRIVATE_KEY_FILE`: The name of your private key file, which should be in the root of your application directory. E.g. `private.key`
+* `VONAGE_APPLICATION_ID`: The Vonage Voice Application ID you created earlier
+* `VONAGE_PRIVATE_KEY_FILE`: The name of your private key file, which should be in the root of your application directory. E.g. `private.key`
 * `OTHER_PHONE_NUMBER`: Another phone number you can call to create a conversation
 * `AWS_KEY`: Your Amazon Web Services key
 * `AWS_SECRET`: Your Amazon Web Services secret
@@ -113,7 +113,7 @@ serverless deploy
 node index.js
 ```
 
-2. Call your Nexmo virtual number from one of your personal numbers. The other number you specified in the `OTHER_PHONE_NUMBER` setting should ring - answer it when it does.
+2. Call your Vonage virtual number from one of your personal numbers. The other number you specified in the `OTHER_PHONE_NUMBER` setting should ring - answer it when it does.
 
 3. Speak a few words into each handset. When you're finished, disconnect both.
 
@@ -137,12 +137,12 @@ We love to hear from you so if you have questions, comments or find a bug in the
 
 * Open an issue on this repository
 * Tweet at us! We're [@NexmoDev on Twitter](https://twitter.com/NexmoDev)
-* Or [join the Nexmo Community Slack](https://developer.nexmo.com/community/slack)
+* Or [join the Vonage Community Slack](https://developer.nexmo.com/community/slack)
 
 ## Further Reading
 
 * Read the [tutorial](https://developer.nexmo.com/use-cases/trancribe-amazon-api) that accompanies this demo application to learn how it was put together.
-* Nexmo Voice API
+* Vonage Voice API
   * [Voice API call recording guide](/voice/voice-api/guides/recording)
   * ["Record a call" code snippet](/voice/voice-api/code-snippets/record-a-call)
   * [Voice API reference](/api/voice)

@@ -2,7 +2,7 @@ require("dotenv").config()
 
 const express = require("express")
 const bodyParser = require("body-parser")
-const Nexmo = require("nexmo")
+const Vonage = require("@vonage/server-sdk")
 const AWS = require("aws-sdk")
 const shortid = require("shortid")
 const fs = require("fs")
@@ -11,11 +11,11 @@ const options = {
   appendToUserAgent: "amazon-transcribe-call/1.0.0",
 }
 
-const nexmo = new Nexmo({
+const vonage = new Vonage({
   apiKey: "not_used", // Voice applications don't use API key or secret
   apiSecret: "not_used",
-  applicationId: process.env.NEXMO_APPLICATION_ID,
-  privateKey: __dirname + "/" + process.env.NEXMO_PRIVATE_KEY_FILE
+  applicationId: process.env.VONAGE_APPLICATION_ID,
+  privateKey: __dirname + "/" + process.env.VONAGE_PRIVATE_KEY_FILE
 })
 
 AWS.config.update({
@@ -60,14 +60,14 @@ app.post('/webhooks/events', (req, res) => {
 })
 
 app.post('/webhooks/recording', (req, res) => {
-  let audioFileName = `nexmo-${shortid.generate()}.mp3`
+  let audioFileName = `vonage-${shortid.generate()}.mp3`
   //let audioFileLocalPath = `./recordings/${audioFileName}`
   let audioFileLocalPath = `./recordings/${audioFileName}`
 
   console.log("recording...")
   console.log(req.body)
 
-  nexmo.files.save(req.body.recording_url, audioFileLocalPath, (err, res) => {
+  vonage.files.save(req.body.recording_url, audioFileLocalPath, (err, res) => {
     if (err) {
       console.log("Could not save audio file")
       console.error(err)
