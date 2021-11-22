@@ -4,7 +4,7 @@ This is example code for a [tutorial](https://developer.nexmo.com/use-cases/tran
 
 It uses the Vonage Voice API to initiate and record the call. The call audio is created in your local `recordings` folder and uploaded to an S3 bucket.
 
-Amazon Cloudwatch triggers a serverless Lambda function when the transcription job has completed.  Transcripts are created in S3 and downloaded to your application's `transcripts` folder.
+Amazon Cloudwatch triggers a serverless Lambda function when the transcription job has completed. Transcripts are created in S3 and downloaded to your application's `transcripts` folder.
 
 ## Welcome to Vonage
 
@@ -18,7 +18,7 @@ Run the following at a terminal prompt to install the CLI and configure it with 
 
 ```
 npm install -g nexmo-cli
-nexmo setup <API_KEY> <API_SECRET>
+vonage config:set --apiKey=<API_KEY> --apiSecret=<API_SECRET>
 ```
 
 ### Purchase a Vonage number
@@ -28,13 +28,13 @@ If you don't already have one, buy a Vonage virtual number to receive inbound ca
 List available numbers (replace `GB` with your [two-character country code](https://www.iban.com/country-codes)):
 
 ```
-nexmo number:search GB
+vonage numbers:search GB
 ```
 
 Purchase one of the numbers:
 
 ```
-nexmo number:buy 447700900001
+vonage numbers:buy 447700900001
 ```
 
 ### Create a Voice API application
@@ -44,7 +44,7 @@ Use the CLI to create a Voice API application with the webhooks that will be res
 Run the command in the application's root directory:
 
 ```
-nexmo app:create "My Echo Server" https://example.com/webhooks/answer https://example.com/webhooks/event --keyfile private.key
+ vonage apps:create "My Echo Server"  --voice_answer_url=https://example.com/webhooks/answer --voice_event_url=https://example.com/webhooks/event
 ```
 
 Make a note of the Application ID returned by this command. It will also download your `private.key` file which the Voice API uses to authenticate your application.
@@ -54,7 +54,7 @@ Make a note of the Application ID returned by this command. It will also downloa
 Use the application ID to link your virtual number:
 
 ```
-nexmo link:app <NUMBER> <APPLICATION_ID>
+vonage apps:link --number=<NUMBER>
 ```
 
 ### Install dependencies
@@ -136,8 +136,8 @@ If you have more than two numbers, you can add more callers to the conversation.
 We love to hear from you so if you have questions, comments or find a bug in the project, let us know! You can either:
 
 * Open an issue on this repository
-* Tweet at us! We're [@NexmoDev on Twitter](https://twitter.com/NexmoDev)
-* Or [join the Vonage Community Slack](https://developer.nexmo.com/community/slack)
+* Tweet at us! We're [@VonageDev on Twitter](https://twitter.com/VonageDev)
+* Or [join the Vonage Community Slack](https://developer.vonage.com/community/slack)
 
 ## Further Reading
 
