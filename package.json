@@ -1,7 +1,7 @@
 {
   "name": "amazon-transcribe-call",
   "version": "1.0.0",
-  "description": "Shows how to use the Amazon Transcribe API to transcribe a phone conversation recorded with the Nexmo Voice API.",
+  "description": "Shows how to use the Amazon Transcribe API to transcribe a phone conversation recorded with the Vonage Voice API.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -13,7 +13,7 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.0",
     "express": "^4.17.1",
-    "nexmo": "^2.4.1",
+    "@vonage/server-sdk": "^2.10.10",
     "serverless": "^1.47.0",
     "shortid": "^2.2.14"
   }
