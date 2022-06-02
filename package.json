@@ -14,7 +14,7 @@
     "dotenv": "^8.0",
     "express": "^4.17.1",
     "@vonage/server-sdk": "^2.10.10",
-    "serverless": "^1.47.0",
+    "serverless": "^3.0.0",
     "shortid": "^2.2.14"
   }
 }
