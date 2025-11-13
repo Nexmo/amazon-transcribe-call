@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apache Kafka Components Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .intro {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            border-left: 5px solid #667eea;
+        }
+
+        .intro h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .component {
+            background: #ffffff;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: #667eea;
+        }
+
+        .component-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .component-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-right: 20px;
+            color: white;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .component h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        .component-description {
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 1.05em;
+            line-height: 1.7;
+        }
+
+        .usability-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .usability-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .usability-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .usability-list li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+            color: #555;
+        }
+
+        .usability-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .key-features {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+
+        .key-features h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .key-features ul {
+            margin-left: 20px;
+            color: #856404;
+        }
+
+        .architecture-diagram {
+            background: #e9ecef;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .architecture-diagram h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .diagram-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: #667eea;
+            margin: 0 10px;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            margin: 5px 5px 5px 0;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .component {
+                padding: 20px;
+            }
+
+            .component-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .diagram-box {
+                display: block;
+                margin: 10px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 Apache Kafka Components Guide</h1>
+            <p>Understanding the Core Building Blocks of Kafka's Distributed Streaming Platform</p>
+        </header>
+
+        <div class="content">
+            <div class="intro">
+                <h2>What is Apache Kafka?</h2>
+                <p>Apache Kafka is a distributed streaming platform that enables you to publish and subscribe to streams of records, store streams of records in a fault-tolerant way, and process streams of records as they occur. It's designed for high-throughput, low-latency handling of real-time data feeds.</p>
+            </div>
+
+            <div class="component">
+                <div class="component-header">
+                    <div class="component-icon">📨</div>
+                    <h2>Producer</h2>
+                </div>
+                <div class="component-description">
+                    Producers are client applications that publish (write) events to Kafka topics. They are responsible for choosing which partition within a topic to write data to, and can implement custom partitioning logic.
+                </div>
+                <div class="usability-section">
+                    <h3>Primary Use Cases:</h3>
+                    <ul class="usability-list">
+                        <li>Publishing application logs and metrics to Kafka</li>
+                        <li>Streaming user activity data from websites or mobile apps</li>
+                        <li>Sending IoT sensor data for real-time processing</li>
+                        <li>Publishing database change events (CDC - Change Data Capture)</li>
+                        <li>Ingesting financial transactions for fraud detection</li>
+                    </ul>
+                </div>
+                <div class="key-features">
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Asynchronous and synchronous send capabilities</li>
+                        <li>Automatic retries and error handling</li>
+                        <li>Batching and compression support</li>
+                        <li>Configurable acknowledgment levels (acks)</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 15px;">
+                    <span class="tag">High Throughput</span>
+                    <span class="tag">Low Latency</span>
+                    <span class="tag">Scalable</span>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="component-header">
+                    <div class="component-icon">📚</div>
+                    <h2>Topic</h2>
+                </div>
+                <div class="component-description">
+                    Topics are categories or feed names to which records are published. They are similar to tables in a database or folders in a filesystem. Topics are multi-subscriber; they can have zero, one, or many consumers that subscribe to the data written to them.
+                </div>
+                <div class="usability-section">
+                    <h3>Primary Use Cases:</h3>
+                    <ul class="usability-list">
+                        <li>Organizing data streams by business domain (e.g., "orders", "payments", "users")</li>
+                        <li>Separating different types of events for processing</li>
+                        <li>Implementing event-driven microservices communication</li>
+                        <li>Creating data pipelines between different systems</li>
+                        <li>Log aggregation from multiple services</li>
+                    </ul>
+                </div>
+                <div class="key-features">
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Partitioned for parallelism and scalability</li>
+                        <li>Configurable retention policies (time or size-based)</li>
+                        <li>Support for compacted topics (keeping only latest value per key)</li>
+                        <li>Replication for fault tolerance</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 15px;">
+                    <span class="tag">Partitioned</span>
+                    <span class="tag">Replicated</span>
+                    <span class="tag">Durable</span>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="component-header">
+                    <div class="component-icon">🔄</div>
+                    <h2>Partition</h2>
+                </div>
+                <div class="component-description">
+                    Each topic is divided into partitions, which are ordered, immutable sequences of records. Partitions enable Kafka to scale horizontally and process data in parallel. Each partition is replicated across multiple brokers for fault tolerance.
+                </div>
+                <div class="usability-section">
+                    <h3>Primary Use Cases:</h3>
+                    <ul class="usability-list">
+                        <li>Enabling parallel processing of topic data across multiple consumers</li>
+                        <li>Distributing load across Kafka cluster nodes</li>
+                        <li>Maintaining ordering guarantees within a partition</li>
+                        <li>Scaling throughput by adding more partitions</li>
+                        <li>Implementing keyed data streams (same key always goes to same partition)</li>
+                    </ul>
+                </div>
+                <div class="key-features">
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Each partition is an ordered, immutable log</li>
+                        <li>Records within a partition have a unique offset</li>
+                        <li>Leader-follower replication model</li>
+                        <li>Partition assignment to consumers for parallel processing</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 15px;">
+                    <span class="tag">Ordered</span>
+                    <span class="tag">Immutable</span>
+                    <span class="tag">Parallel Processing</span>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="component-header">
+                    <div class="component-icon">📖</div>
+                    <h2>Consumer</h2>
+                </div>
+                <div class="component-description">
+                    Consumers are client applications that subscribe to (read) events from Kafka topics. They read data from partitions at their own pace and can replay data by adjusting their offset position.
+                </div>
+                <div class="usability-section">
+                    <h3>Primary Use Cases:</h3>
+                    <ul class="usability-list">
+                        <li>Real-time analytics and monitoring dashboards</li>
+                        <li>Populating search indexes or caches</li>
+                        <li>Processing events for business logic execution</li>
+                        <li>Syncing data to databases or data warehouses</li>
+                        <li>Triggering notifications or alerts based on events</li>
+                    </ul>
+                </div>
+                <div class="key-features">
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Consumer groups for load balancing and failover</li>
+                        <li>Automatic or manual offset management</li>
+                        <li>Ability to replay historical data</li>
+                        <li>Pull-based consumption model</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 15px;">
+                    <span class="tag">Pull-based</span>
+                    <span class="tag">Scalable</span>
+                    <span class="tag">Fault Tolerant</span>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="component-header">
+                    <div class="component-icon">👥</div>
+                    <h2>Consumer Group</h2>
+                </div>
+                <div class="component-description">
+                    A consumer group is a set of consumers that cooperate to consume data from topics. Each partition is consumed by exactly one consumer within the group, enabling parallel processing and load balancing.
+                </div>
+                <div class="usability-section">
+                    <h3>Primary Use Cases:</h3>
+                    <ul class="usability-list">
+                        <li>Scaling out consumption of high-volume topics</li>
+                        <li>Load balancing across multiple consumer instances</li>
+                        <li>Automatic failover when a consumer fails</li>
+                        <li>Implementing competing consumers pattern</li>
+                        <li>Supporting multiple independent processing pipelines for same data</li>
+                    </ul>
+                </div>
+                <div class="key-features">
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Automatic partition assignment and rebalancing</li>
+                        <li>Each partition consumed by one consumer in the group</li>
+                        <li>Independent offset tracking per consumer group</li>
+                        <li>Horizontal scalability up to number of partitions</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 15px;">
+                    <span class="tag">Load Balancing</span>
+                    <span class="tag">Auto Rebalancing</span>
+                    <span class="tag">High Availability</span>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="component-header">
+                    <div class="component-icon">🖥️</div>
+                    <h2>Broker</h2>
+                </div>
+                <div class="component-description">
+                    A Kafka broker is a server that stores data and serves clients (producers and consumers). A Kafka cluster consists of multiple brokers working together to provide scalability, fault tolerance, and high availability.
+                </div>
+                <div class="usability-section">
+                    <h3>Primary Use Cases:</h3>
+                    <ul class="usability-list">
+                        <li>Storing and managing topic partitions</li>
+                        <li>Handling read and write requests from clients</li>
+                        <li>Replicating data across cluster for fault tolerance</li>
+                        <li>Managing partition leadership and follower replication</li>
+                        <li>Coordinating with ZooKeeper (or KRaft) for cluster management</li>
+                    </ul>
+                </div>
+                <div class="key-features">
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Horizontal scalability by adding more brokers</li>
+                        <li>Automatic leader election for partitions</li>
+                        <li>Efficient disk I/O using sequential writes</li>
+                        <li>Zero-copy data transfer optimization</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 15px;">
+                    <span class="tag">Distributed</span>
+                    <span class="tag">Fault Tolerant</span>
+                    <span class="tag">High Performance</span>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="component-header">
+                    <div class="component-icon">🎯</div>
+                    <h2>ZooKeeper / KRaft</h2>
+                </div>
+                <div class="component-description">
+                    ZooKeeper (being replaced by KRaft) manages and coordinates Kafka brokers. It handles metadata management, leader election, and cluster coordination. KRaft is Kafka's new built-in consensus protocol that removes the dependency on ZooKeeper.
+                </div>
+                <div class="usability-section">
+                    <h3>Primary Use Cases:</h3>
+                    <ul class="usability-list">
+                        <li>Storing cluster metadata and configuration</li>
+                        <li>Managing broker membership and health</li>
+                        <li>Electing partition leaders</li>
+                        <li>Coordinating distributed operations across cluster</li>
+                        <li>Managing access control lists (ACLs) and quotas</li>
+                    </ul>
+                </div>
+                <div class="key-features">
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Centralized metadata management</li>
+                        <li>Leader election and consensus</li>
+                        <li>Configuration management for topics and brokers</li>
+                        <li>KRaft: Simplified architecture, faster recovery, no external dependency</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 15px;">
+                    <span class="tag">Coordination</span>
+                    <span class="tag">Metadata</span>
+                    <span class="tag">Consensus</span>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="component-header">
+                    <div class="component-icon">🔌</div>
+                    <h2>Kafka Connect</h2>
+                </div>
+                <div class="component-description">
+                    Kafka Connect is a framework for connecting Kafka with external systems such as databases, key-value stores, search indexes, and file systems. It provides a scalable and reliable way to stream data between Kafka and other systems.
+                </div>
+                <div class="usability-section">
+                    <h3>Primary Use Cases:</h3>
+                    <ul class="usability-list">
+                        <li>Importing data from databases into Kafka (CDC - Change Data Capture)</li>
+                        <li>Exporting Kafka data to databases, data lakes, or data warehouses</li>
+                        <li>Integrating with cloud storage services (S3, Azure Blob, GCS)</li>
+                        <li>Connecting to messaging systems (MQ, JMS)</li>
+                        <li>Building data pipelines without writing custom code</li>
+                    </ul>
+                </div>
+                <div class="key-features">
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Distributed, scalable, and fault-tolerant architecture</li>
+                        <li>Rich ecosystem of ready-to-use connectors</li>
+                        <li>Automatic offset management and exactly-once semantics</li>
+                        <li>REST API for managing connectors</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 15px;">
+                    <span class="tag">Integration</span>
+                    <span class="tag">ETL</span>
+                    <span class="tag">No Code</span>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="component-header">
+                    <div class="component-icon">🌊</div>
+                    <h2>Kafka Streams</h2>
+                </div>
+                <div class="component-description">
+                    Kafka Streams is a client library for building real-time streaming applications and microservices. It allows you to process and analyze data stored in Kafka with a simple and lightweight Java or Scala API.
+                </div>
+                <div class="usability-section">
+                    <h3>Primary Use Cases:</h3>
+                    <ul class="usability-list">
+                        <li>Real-time aggregations and analytics</li>
+                        <li>Data enrichment and transformation</li>
+                        <li>Joining multiple streams or tables</li>
+                        <li>Windowed computations (tumbling, hopping, session windows)</li>
+                        <li>Building stateful event processing applications</li>
+                    </ul>
+                </div>
+                <div class="key-features">
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Exactly-once processing semantics</li>
+                        <li>Stateful and stateless processing operations</li>
+                        <li>Interactive queries on stream state</li>
+                        <li>No separate processing cluster required</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 15px;">
+                    <span class="tag">Stream Processing</span>
+                    <span class="tag">Real-time</span>
+                    <span class="tag">Exactly-once</span>
+                </div>
+            </div>
+
+            <div class="component">
+                <div class="component-header">
+                    <div class="component-icon">📊</div>
+                    <h2>Schema Registry</h2>
+                </div>
+                <div class="component-description">
+                    Schema Registry is a centralized service for managing and storing schemas (Avro, JSON, Protobuf). It ensures data compatibility across producers and consumers and provides versioning for schema evolution.
+                </div>
+                <div class="usability-section">
+                    <h3>Primary Use Cases:</h3>
+                    <ul class="usability-list">
+                        <li>Enforcing data contracts between producers and consumers</li>
+                        <li>Managing schema evolution and compatibility</li>
+                        <li>Reducing message size with schema references</li>
+                        <li>Validating data before it's published to Kafka</li>
+                        <li>Supporting multiple data formats (Avro, JSON Schema, Protobuf)</li>
+                    </ul>
+                </div>
+                <div class="key-features">
+                    <h4>Key Features:</h4>
+                    <ul>
+                        <li>Centralized schema storage and versioning</li>
+                        <li>Compatibility checking (backward, forward, full)</li>
+                        <li>RESTful API for schema management</li>
+                        <li>Integration with Kafka clients</li>
+                    </ul>
+                </div>
+                <div style="margin-top: 15px;">
+                    <span class="tag">Data Governance</span>
+                    <span class="tag">Schema Evolution</span>
+                    <span class="tag">Compatibility</span>
+                </div>
+            </div>
+
+            <div class="architecture-diagram">
+                <h2>Kafka Architecture Flow</h2>
+                <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+                    <div class="diagram-box">
+                        <strong>Producer</strong><br>
+                        <small>Publishes Messages</small>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="diagram-box">
+                        <strong>Broker/Topic</strong><br>
+                        <small>Stores Data</small>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="diagram-box">
+                        <strong>Consumer</strong><br>
+                        <small>Reads Messages</small>
+                    </div>
+                </div>
+                <div style="margin-top: 30px;">
+                    <p style="color: #666;">ZooKeeper/KRaft coordinates the cluster, while Connect & Streams provide integration and processing capabilities</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Apache Kafka</strong> - Distributed Streaming Platform</p>
+            <p style="margin-top: 10px; opacity: 0.8;">Designed for high-throughput, low-latency, fault-tolerant data streaming</p>
+        </footer>
+    </div>
+</body>
+</html>
